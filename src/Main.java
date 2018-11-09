@@ -9,6 +9,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +24,7 @@ public class Main {
         Encoder encoder = new Encoder(sequence, 2);
         List<String> clauses = encoder.getClauses();
 
-        encoder.printVariablesMap();
+//        encoder.printVariablesMap();
 
         String outputFilePath = "outputs/output";
         Path outputFile = Paths.get(outputFilePath);
@@ -38,6 +40,20 @@ public class Main {
         Process process = Runtime.getRuntime().exec(command);
 
         BufferedReader lineReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-        lineReader.lines().forEach(System.out::println);
+
+        String processLine = lineReader.readLine();
+        String solution = "";
+
+        while (processLine != null) {
+            System.out.println(processLine);
+            if (processLine.charAt(0) == 'v') solution = processLine.substring(2);
+            processLine = lineReader.readLine();
+        }
+
+        System.out.println("---------------------------------------");
+        System.out.println("SOLUTION: ");
+
+        String[] positiveEvaluations = solution.split(" ");
+        Arrays.stream(positiveEvaluations).filter(s -> s.charAt(0) != '-').forEach(elem -> encoder.printVariablesMap(Integer.valueOf(elem)));
     }
 }

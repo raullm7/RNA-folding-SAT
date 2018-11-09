@@ -69,4 +69,8 @@ public class Encoder {
         variablesMap.entrySet()
                 .forEach(entry -> System.out.println(entry.getKey() + ": " + entry.getValue()));
     }
+
+    public void printVariablesMap(int i) {
+        System.out.println(i + ": " + variablesMap.get(i));
+    }
 }
