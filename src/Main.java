@@ -21,8 +21,6 @@ public class Main {
         Encoder encoder = new Encoder(sequence, 2);
         List<String> clauses = encoder.getClauses();
 
-//        encoder.printVariablesMap();
-
         String outputFilePath = "outputs/output";
         Path outputFile = Paths.get(outputFilePath);
 
@@ -32,7 +30,9 @@ public class Main {
 
         Files.write(outputFile, formattedOutput, Charset.forName("UTF-8"));
 
-        ProcessBuilder pb = new ProcessBuilder("/Users/raul/open-wbo/open-wbo", outputFilePath, solverOutputFilePath);
+        System.out.println("Encoding finished!\n");
+
+        ProcessBuilder pb = new ProcessBuilder("/Users/raul/open-wbo/open-wbo", outputFilePath);
         pb.redirectErrorStream(true);
         Process process = pb.start();
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
@@ -47,7 +47,18 @@ public class Main {
 
         System.out.println("---------------------------------------");
 
+        int numberOfPairs = 0;
         String[] positiveEvaluations = solution.split(" ");
-        Arrays.stream(positiveEvaluations).filter(s -> s.charAt(0) != '-').forEach(elem -> encoder.printVariablesMap(Integer.valueOf(elem)));
+
+        for (String eval : positiveEvaluations) {
+            if (eval.charAt(0) != '-') {
+                encoder.printVariablesMap(Integer.valueOf(eval));
+                numberOfPairs++;
+            }
+        }
+
+        System.out.println("---------------------------------------");
+
+        System.out.println("Number of pairs: " + numberOfPairs + "\n");
     }
 }
