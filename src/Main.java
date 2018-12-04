@@ -6,8 +6,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +16,7 @@ public class Main {
         Scanner sc = new Scanner(file);
         String sequence = sc.nextLine();
 
-        Encoder encoder = new Encoder(sequence, 2);
+        Encoder encoder = new Encoder(sequence);
         List<String> clauses = encoder.getClauses();
 
         String outputFilePath = "outputs/output";
@@ -26,7 +24,7 @@ public class Main {
 
         String solverOutputFilePath = "outputs/solverOutput";
 
-        List<String> formattedOutput = Helpers.getFormattedOutput(clauses, encoder.getVariablesMapSize());
+        List<String> formattedOutput = Helpers.getFormattedOutput(clauses, encoder, sequence);
 
         Files.write(outputFile, formattedOutput, Charset.forName("UTF-8"));
 
@@ -52,7 +50,7 @@ public class Main {
 
         for (String eval : positiveEvaluations) {
             if (eval.charAt(0) != '-') {
-                encoder.printVariablesMap(Integer.valueOf(eval));
+                encoder.printStackMap(Integer.valueOf(eval));
                 numberOfPairs++;
             }
         }

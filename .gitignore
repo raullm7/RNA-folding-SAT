@@ -2,6 +2,7 @@
 *.class
 .idea/
 src/outputs/
+src/inputs/
 
 # Log file
 *.log
